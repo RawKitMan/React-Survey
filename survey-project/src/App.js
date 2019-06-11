@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Welcome from './pages/Welcome';
-import Survey from './pages/Survey';
+import Trivia from './pages/Trivia';
 import NotMatch from './pages/NotMatch';
 
 import './App.css';
@@ -11,7 +11,7 @@ function App() {
     <Router>
       <Switch>
         <Route path ='/' exact component={Welcome} />
-        <Route path ='/survey' exact component={Survey} />
+        <Route path ='/trivia' exact component={Trivia} />
         <Route component={NotMatch} />
       </Switch>
     </Router>

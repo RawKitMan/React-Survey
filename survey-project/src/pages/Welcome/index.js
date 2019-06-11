@@ -6,11 +6,10 @@ import Container from 'react-bootstrap/Container';
 class Welcome extends Component {
     render() {
         return (
-
             <Jumbotron>
                 <Container>
-                    <p>This is my welcome page. Click the button to begin.</p>
-                    <Button href='/survey' variant='danger' size="lg" active>Begin Survey</Button>
+                    <p>Test your knowledge of World of Warcraft. Click below to begin</p>
+                    <Button href='/trivia' variant='danger' size="lg" active>Begin</Button>
                 </Container>
             </Jumbotron >
         )
