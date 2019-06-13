@@ -4,7 +4,10 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-// Work on making single choice radio buttons and how to submit the value.
+//Get our score screen
+import ScoreScreen from "../../components/ScoreScreen";
+
+
 class Trivia extends Component {
 
     //The state for our Trivia game
@@ -37,38 +40,66 @@ class Trivia extends Component {
 
     //Grabs the answer the user clicks on and stores it in the state for later comparison
     handleChange = (event) => {
-        console.log(event.target.value);
+        
         this.setState({
             guessedAnswer: event.target.value
         })
     }
 
+    keepScore = () => {
+        console.log(typeof this.state.guessedAnswer);
+        console.log(this.state.correctAnswers[this.state.questionNum])
+        if (parseInt(this.state.guessedAnswer) === this.state.correctAnswers[this.state.questionNum]){
+            this.setState((state) => ({
+                guessedRight: state.guessedRight + 1
+            }))
+        }
+        else{
+            this.setState((state) => ({
+                guessedWrong: state.guessedWrong + 1
+            })) 
+        }
+    }
+
     //Put the questions and available answers out for the user to answer if there are 
     //questions left to ask. Otherwise, the page will display the final outcome.
     render() {
+        let haveMoreQuestions = this.state.questionNum < this.state.questions.length;
         return (
-            <Jumbotron key={this.state.questionNum}>
-                <p>{this.state.questions[this.state.questionNum]}</p>
-                <Form>
-                    <Form.Group>
-                        {this.state.answers[this.state.questionNum].map((answer, index) => {
-                            return (
-                                <div>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="radio-answers"
-                                            value={index} 
-                                            onChange = {this.handleChange}/>{answer}                                            
-                                    </label>
-                                    <br />
-                                </div>
-                            );
-                        })}
-                    </Form.Group>
-                </Form>
-                <Button onClick={() => { this.incrementQuestion() }} type="submit" variant='danger' size="lg" active>Submit</Button>
-            </Jumbotron >
+            <div>
+                {haveMoreQuestions ? (
+                    <Jumbotron key={this.state.questionNum}>
+                        <p>{this.state.questions[this.state.questionNum]}</p>
+                        <Form>
+                            <Form.Group>
+                                {this.state.answers[this.state.questionNum].map((answer, index) => {
+                                    return (
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type="radio"
+                                                    name="radio-answers"
+                                                    value={index}
+                                                    onChange={this.handleChange} />{answer}
+                                            </label>
+                                            <br />
+                                        </div>
+                                    );
+                                })}
+                            </Form.Group>
+                        </Form>
+                        <Button onClick={() => { this.incrementQuestion(); this.keepScore(); }} type="submit" variant='danger' size="lg" active>Submit</Button>
+                    </Jumbotron >
+                ) : (
+                        <Jumbotron>
+                            <ScoreScreen
+                                guessedRight={this.state.guessedRight}
+                                guessedWrong={this.state.guessedWrong}
+                            />
+                        </Jumbotron>
+                    )
+                }
+            </div>
         );
     };
 };
